@@ -1,0 +1,28 @@
+import React from "react";
+import { Link } from "react-router-dom";
+
+function Nav() {
+  return (
+    <div className="flex justify-between py-5 px-10 w-full">
+      <Link to="/">
+        <div className="flex gap-1 items-center">
+          <img
+            src={`${process.env.PUBLIC_URL}/assets/logo.png`}
+            alt="logo"
+            className="w-14 h-14 object-cover"
+          />
+          <h1 className="font-semibold text-pink">Hotel Booking Site</h1>
+        </div>
+      </Link>
+
+      <div className="flex gap-5">
+        <button className="border border-pink px-10 rounded-lg text-pink">
+          Log in
+        </button>
+        <button className="bg-pink px-10 rounded-lg text-white">Sign up</button>
+      </div>
+    </div>
+  );
+}
+
+export default Nav;
