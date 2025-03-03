@@ -32,7 +32,7 @@ function Home() {
         className="w-full h-full object-cover "
       />
       <div className="absolute top-0 left-0 w-full h-full">
-        <div className="flex flex-col items-center gap-16 ">
+        <div className="flex flex-col items-center gap-12 ">
           <Nav />
           <div>
             <h1 className="text-6xl text-white font-bold text-center">
@@ -42,7 +42,7 @@ function Home() {
 
           <SearchBar />
 
-          <div className="flex flex-col items-center bg-white p-5 w-3/4 gap-10 rounded-lg h-4/5">
+          <div className="flex flex-col items-center bg-white py-5 px-3 w-3/4 gap-10 rounded-lg h-4/5">
             <h2 className="text-3xl">
               Explore accommodations in the popular City!
             </h2>
