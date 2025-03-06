@@ -7,7 +7,7 @@ function Payment() {
       <div className="border-b">
         <Nav />
       </div>
-      <div className="flex justify-center gap-10 pt-5 ">
+      <div className="flex flex-wrap justify-center gap-10 pt-5 ">
         <div className="flex flex-col gap-5 ">
           <div className="border border-red-300 rounded-md">
             <div className="border-b border-red-300">
@@ -39,7 +39,7 @@ function Payment() {
           </div>
         </div>
         <div className="flex flex-col gap-10 w-1/2">
-          <div className="flex gap-5 ">
+          <div className="flex flex-wrap gap-5 ">
             <img
               src="https://images.pexels.com/photos/591383/pexels-photo-591383.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
                     "
@@ -54,7 +54,7 @@ function Payment() {
               <p className="font-bold text-pink">Kungsholmen, Stockholm</p>
             </div>
           </div>
-          <div className="flex flex-col gap-5 border p-5">
+          <div className="flex flex-col gap-5 border p-5 min-w-fit">
             <div className="flex flex-col gap-3">
               <h3>Card holder's name *</h3>
               <input type="text" className="border rounded-md p-3 " />
@@ -63,12 +63,12 @@ function Payment() {
               <h3>Card number *</h3>
               <input type="number" className="border rounded-md p-3 " />
             </div>
-            <div className="flex gap-5 ">
-              <div className="">
+            <div className="flex flex-wrap gap-5 ">
+              <div className="flex flex-col gap-3">
                 <h3>Expire date *</h3>
                 <input type="number" className="border rounded-md p-3 " />
               </div>
-              <div>
+              <div className="flex flex-col gap-3">
                 <h3>CVC *</h3>
                 <input type="number" className="border rounded-md p-3 " />
               </div>

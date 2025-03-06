@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Nav() {
   return (
-    <div className="flex justify-between py-5 px-10 w-full">
+    <div className="flex flex-wrap justify-between py-5 px-10 w-full">
       <Link to="/">
         <div className="flex gap-1 items-center">
           <img
@@ -15,11 +15,13 @@ function Nav() {
         </div>
       </Link>
 
-      <div className="flex gap-5">
-        <button className="border border-pink px-10 rounded-lg text-pink">
+      <div className="flex flex-wrap gap-5">
+        <button className="border border-pink px-10 rounded-lg text-pink py-3">
           Log in
         </button>
-        <button className="bg-pink px-10 rounded-lg text-white">Sign up</button>
+        <button className="bg-pink px-10 rounded-lg text-white py-3">
+          Sign up
+        </button>
       </div>
     </div>
   );

@@ -1,29 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Nav from "../components/Nav";
 import SearchBar from "../components/SearchBar";
+import axios from "axios";
 
-const hotels = [
-  {
-    title: "Clarion Hotel Amaranten",
-    address: "Kungsholmen, Stockholm",
-    roomType: "Double room",
-    price: 3014,
-    image:
-      "https://images.pexels.com/photos/591383/pexels-photo-591383.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    review: "Very good",
-  },
-  {
-    title: "Castle House Inn",
-    address: "Old Town, Stockholm",
-    roomType: "Single room",
-    price: 2261,
-    image:
-      "https://images.pexels.com/photos/3770883/pexels-photo-3770883.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    review: "Good",
-  },
-];
+type Hotel = {
+  name: string;
+  address: string;
+  city: string;
+  country: string;
+  rooms: Room[];
+};
+type Room = {
+  roomType: string;
+  pricePerNight: number;
+  available: boolean;
+};
+
+const image1 =
+  "https://images.pexels.com/photos/591383/pexels-photo-591383.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
+
+const image2 =
+  "https://images.pexels.com/photos/3770883/pexels-photo-3770883.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
 
 function Hotels() {
+  const [hotels, setHotels] = useState<Hotel[]>([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5247/api/Hotels")
+      .then((res) => setHotels(res.data))
+      .catch((err) => console.error(err));
+  }, []);
+  console.log(hotels);
+
   return (
     <div className="w-full">
       <div className="border-b">
@@ -38,8 +47,8 @@ function Hotels() {
           <a href="Hotels/Sweden/Stockholm">Stockholm</a> {" > "}
           Search results
         </div>
-        <div className="flex gap-5 justify-between w-2/3 px-5">
-          <div className="flex flex-col">
+        <div className="flex  gap-5 justify-between w-2/3 px-5">
+          <div className="hidden lg:flex flex-col">
             <div className="w-80 h-60">
               <img
                 src={`${process.env.PUBLIC_URL}/assets/map.png`}
@@ -79,41 +88,41 @@ function Hotels() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-5 w-4/5">
+          <div className="flex flex-col gap-5 w-full">
             <h1 className="font-bold text-2xl">Stockholm: 2 hotels found</h1>
             <input
               type="options"
               value="Sort by: price high to low"
               className="border rounded-xl w-1/3 px-5 py-3"
             />
-            {hotels.map((hotel) => (
-              <div className="flex gap-5 justify-between border p-5 rounded-lg">
-                <div className="flex gap-5">
-                  <img
-                    src={hotel.image}
-                    alt="Hotel image"
-                    className="w-60 h-60 object-cover rounded-lg"
-                  />
-
-                  <div className="flex flex-col justify-self-start">
-                    <h2 className="text-2xl font-bold text-pink">
-                      {hotel.title}
-                    </h2>
-                    <p className="font-bold text-pink">{hotel.address}</p>
-                    <p>{hotel.roomType}</p>
+            {hotels.map((hotel, i) => (
+              <div className="flex gap-5 flex-wrap justify-end lg:justify-end border p-5 rounded-lg ">
+                <div className="flex justify-between gap-10">
+                  <div className="w-1/2 h-60">
+                    <img
+                      src={image1}
+                      alt="Hotel image"
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                  </div>
+                  <div className="flex flex-wrap justify-between items-start gap-10 w-full">
+                    <div className="flex flex-col justify-self-start ">
+                      <h2 key={i} className="text-2xl font-bold text-pink">
+                        {hotel.name}
+                      </h2>
+                      <p className="font-bold text-pink">{hotel.address}</p>
+                      <p>{hotel.rooms?.[0]?.roomType ?? "N/A"} Room</p>
+                    </div>
+                    <div className="flex flex-col">
+                      <p>2 nights, 2 adults</p>
+                      <p className="text-2xl font-semibold">
+                        SEK {hotel.rooms?.[0]?.pricePerNight ?? "N/A"}
+                      </p>
+                      <p>Including tax and fees</p>
+                    </div>
                   </div>
                 </div>
-
-                <div className="flex flex-col gap-8 justify-center">
-                  <div className="flex flex-col">
-                    <p className="text-2xl font-semibold">{hotel.review}</p>
-                    <p>10,203 reviews</p>
-                  </div>
-                  <div className="flex flex-col">
-                    <p>2 nights, 2 adults</p>
-                    <p className="text-2xl font-semibold">SEK {hotel.price}</p>
-                    <p>Including tax and fees</p>
-                  </div>
+                <div className="flex place-self-end">
                   <button className="bg-pink px-5 py-3 rounded-lg text-white">
                     See availability
                   </button>
