@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import Nav from "../components/Nav";
 import SearchBar from "../components/SearchBar";
+import { useNavigate } from "react-router-dom";
 
 const data = [
   {
@@ -24,6 +25,12 @@ const data = [
   },
 ];
 function Home() {
+  const [searchParams, setSearchParams] = useState({
+    city: "",
+    checkInDate: "",
+    checkOutDate: "",
+    guest: 1,
+  });
   return (
     <div className="w-full h-screen relative">
       <img
@@ -40,7 +47,7 @@ function Home() {
             </h1>
           </div>
 
-          <SearchBar />
+          <SearchBar searchParams={searchParams} />
 
           <div className="flex flex-col items-center bg-white py-5 px-3 w-3/4 gap-10 rounded-lg h-4/5">
             <h2 className="text-3xl">

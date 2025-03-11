@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Nav from "../components/Nav";
 import SearchBar from "../components/SearchBar";
-import axios from "axios";
+import { GetAllHotels } from "../apiServices.tsx/HotelData";
+import { useLocation } from "react-router-dom";
 
 type Hotel = {
   name: string;
   address: string;
   city: string;
-  country: string;
   rooms: Room[];
 };
 type Room = {
   roomType: string;
   pricePerNight: number;
-  available: boolean;
 };
 
 const image1 =
@@ -24,14 +23,45 @@ const image2 =
 
 function Hotels() {
   const [hotels, setHotels] = useState<Hotel[]>([]);
+  const [searchParams, setSearchParams] = useState({
+    city: "",
+    checkInDate: "",
+    checkOutDate: "",
+    guest: 1,
+  });
+  const location = useLocation();
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5247/api/Hotels")
-      .then((res) => setHotels(res.data))
-      .catch((err) => console.error(err));
-  }, []);
-  console.log(hotels);
+    const params = new URLSearchParams(location.search);
+    const city = params.get("city") || "";
+    const checkInDate = params.get("checkInDate") || "";
+    const checkOutDate = params.get("checkOutDate") || "";
+    const guest = params.get("guest") || "1";
+
+    setSearchParams({
+      city,
+      checkInDate,
+      checkOutDate,
+      guest: parseInt(guest, 10),
+    });
+
+    const getHotels = async () => {
+      try {
+        const data = await GetAllHotels(
+          city,
+          checkInDate,
+          checkOutDate,
+          parseInt(guest, 10)
+        );
+        setHotels(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Failed to fetch hotels", error);
+      }
+    };
+
+    getHotels();
+  }, [location.search]);
 
   return (
     <div className="w-full">
@@ -39,12 +69,12 @@ function Hotels() {
         <Nav />
       </div>
       <div className="flex flex-col items-center -top-10">
-        <SearchBar />
+        <SearchBar searchParams={searchParams} />
         <div className="w-2/3 align-self-start px-5 pb-5">
           <a href="/Home">Home</a> {" > "}
-          <a href="Hotels/Sweden">Sweden</a>
+          <a href="Hotels/Sweden">Country</a>
           {" > "}
-          <a href="Hotels/Sweden/Stockholm">Stockholm</a> {" > "}
+          <a href="Hotels/Sweden/Stockholm">{searchParams.city}</a> {" > "}
           Search results
         </div>
         <div className="flex  gap-5 justify-between w-2/3 px-5">
@@ -89,7 +119,9 @@ function Hotels() {
             </div>
           </div>
           <div className="flex flex-col gap-5 w-full">
-            <h1 className="font-bold text-2xl">Stockholm: 2 hotels found</h1>
+            <h1 className="font-bold text-2xl">
+              {searchParams.city}: {hotels.length} hotels found
+            </h1>
             <input
               type="options"
               value="Sort by: price high to low"
@@ -110,7 +142,9 @@ function Hotels() {
                       <h2 key={i} className="text-2xl font-bold text-pink">
                         {hotel.name}
                       </h2>
-                      <p className="font-bold text-pink">{hotel.address}</p>
+                      <p className="font-bold text-pink">
+                        {hotel.address}, {hotel.city}
+                      </p>
                       <p>{hotel.rooms?.[0]?.roomType ?? "N/A"} Room</p>
                     </div>
                     <div className="flex flex-col">

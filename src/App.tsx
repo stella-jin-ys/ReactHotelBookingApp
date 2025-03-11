@@ -1,20 +1,31 @@
 import React from "react";
 import Home from "./pages/Home";
 import Hotels from "./pages/Hotels";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import AdminDashboard from "./pages/AdminDashboard";
 import Payment from "./pages/Payment";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY!);
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/hotels" element={<Hotels />} />
-        <Route path="/adminDashboard" element={<AdminDashboard />} />
-        <Route path="/payment" element={<Payment />} />
-      </Routes>
-    </Router>
+    <Elements stripe={stripePromise}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/Hotels" element={<Hotels />} />
+          <Route path="/AdminDashboard" element={<AdminDashboard />} />
+          <Route path="/Payment" element={<Payment />} />
+        </Routes>
+      </Router>
+    </Elements>
   );
 }
 
