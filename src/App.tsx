@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import AdminDashboard from "./pages/AdminDashboard";
 import Payment from "./pages/Payment";
+import Login from "./pages/Login";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
@@ -20,6 +21,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/Login" element={<Login />} />
           <Route path="/Hotels" element={<Hotels />} />
           <Route path="/AdminDashboard" element={<AdminDashboard />} />
           <Route path="/Payment" element={<Payment />} />

@@ -1,7 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Nav() {
+  const navigate = useNavigate();
+  
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
+
   return (
     <div className="flex flex-wrap justify-between py-5 px-10 w-full">
       <Link to="/">
@@ -16,7 +22,10 @@ function Nav() {
       </Link>
 
       <div className="flex flex-wrap gap-5">
-        <button className="border border-pink px-10 rounded-lg text-pink py-3">
+        <button 
+          onClick={handleLoginClick}
+          className="border border-pink px-10 rounded-lg text-pink py-3"
+        >
           Log in
         </button>
         <button className="bg-pink px-10 rounded-lg text-white py-3">
@@ -24,6 +33,8 @@ function Nav() {
         </button>
       </div>
     </div>
+
+    
   );
 }
 
