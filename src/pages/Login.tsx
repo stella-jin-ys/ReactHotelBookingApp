@@ -166,7 +166,7 @@ const Login: React.FC = () => {
           <div className="flex justify-center">
             <button
               type="submit"
-              className="w-32 py-2 px-4 text-md font-medium rounded-md text-black bg-pink hover:bg-rose-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 shadow-md transition-all"
+              className="w-32 py-2 px-4 text-md font-medium rounded-md text-white bg-pink hover:bg-rose-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 shadow-md transition-all"
             >
               Log in
             </button>

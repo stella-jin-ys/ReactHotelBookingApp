@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import Nav from "../components/Nav";
 import SearchBar from "../components/SearchBar";
 import { GetAllHotels } from "../apiServices.tsx/HotelData";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type Hotel = {
+  hotelID: number,
   name: string;
   address: string;
   city: string;
@@ -30,6 +31,7 @@ function Hotels() {
     guest: 1,
   });
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -63,10 +65,14 @@ function Hotels() {
     getHotels();
   }, [location.search]);
 
+  // Function to handle navigation to hotel detail page
+  const handleSeeAvailability = (hotelId: number) => {
+    navigate(`/hotels/${hotelId}?city=${encodeURIComponent(searchParams.city)}&checkInDate=${searchParams.checkInDate}&checkOutDate=${searchParams.checkOutDate}&guest=${searchParams.guest}`);
+  };
+
   return (
     <div className="w-full">
       <div className="border-b">
-        <Nav />
       </div>
       <div className="flex flex-col items-center -top-10">
         <SearchBar searchParams={searchParams} />
@@ -77,7 +83,7 @@ function Hotels() {
           <a href="Hotels/Sweden/Stockholm">{searchParams.city}</a> {" > "}
           Search results
         </div>
-        <div className="flex  gap-5 justify-between w-2/3 px-5">
+        <div className="flex gap-5 justify-between w-2/3 px-5">
           <div className="hidden lg:flex flex-col">
             <div className="w-80 h-60">
               <img
@@ -128,7 +134,7 @@ function Hotels() {
               className="border rounded-xl w-1/3 px-5 py-3"
             />
             {hotels.map((hotel, i) => (
-              <div className="flex gap-5 flex-wrap justify-end lg:justify-end border p-5 rounded-lg ">
+              <div key={hotel.hotelID} className="flex gap-5 flex-wrap justify-end lg:justify-end border p-5 rounded-lg">
                 <div className="flex justify-between gap-10">
                   <div className="w-1/2 h-60">
                     <img
@@ -138,8 +144,8 @@ function Hotels() {
                     />
                   </div>
                   <div className="flex flex-wrap justify-between items-start gap-10 w-full">
-                    <div className="flex flex-col justify-self-start ">
-                      <h2 key={i} className="text-2xl font-bold text-pink">
+                    <div className="flex flex-col justify-self-start">
+                      <h2 className="text-2xl font-bold text-pink">
                         {hotel.name}
                       </h2>
                       <p className="font-bold text-pink">
@@ -157,7 +163,10 @@ function Hotels() {
                   </div>
                 </div>
                 <div className="flex place-self-end">
-                  <button className="bg-pink px-5 py-3 rounded-lg text-white">
+                  <button 
+                    className="bg-pink px-5 py-3 rounded-lg text-white"
+                    onClick={() => handleSeeAvailability(hotel.hotelID)}
+                  >
                     See availability
                   </button>
                 </div>

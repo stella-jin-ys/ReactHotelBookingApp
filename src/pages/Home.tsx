@@ -40,7 +40,6 @@ function Home() {
       />
       <div className="absolute top-0 left-0 w-full h-full">
         <div className="flex flex-col items-center gap-12 ">
-          <Nav />
           <div>
             <h1 className="text-6xl text-white font-bold text-center">
               Discover the best hotel for your next vacation!
