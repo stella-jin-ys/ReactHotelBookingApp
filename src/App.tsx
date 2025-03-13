@@ -14,14 +14,17 @@ import Payment from "./pages/Payment";
 import Login from "./pages/Login";
 
 function App() {
-  return (
+return(
     <Router>
+        <Nav />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Hotels" element={<Hotels />} />
+        <Route path="/hotels/:hotelId" element={<HotelPage />} /> {/* Add this new route */}
         <Route path="/AdminDashboard" element={<AdminDashboard />} />
         <Route path="/Payment" element={<Payment />} />
+        <Route path="/booking-confirmation/:bookingId" element={<BookingConfirmation />} />
       </Routes>
     </Router>
   );
