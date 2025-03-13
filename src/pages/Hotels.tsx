@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Nav from "../components/Nav";
 import SearchBar from "../components/SearchBar";
-import { GetAllHotels } from "../apiServices.tsx/HotelData";
+import { GetAllHotels } from "../apiServices.tsx/HotelService";
 import { useLocation } from "react-router-dom";
 
 type Hotel = {
