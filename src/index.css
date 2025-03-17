@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Emblema+One&family=Mogra&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Delius+Unicase:wght@400;700&family=Emblema+One&family=Mogra&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=League+Spartan:wght@100..900&family=Poiret+One&display=swap");
 
 body {
   margin: 0;

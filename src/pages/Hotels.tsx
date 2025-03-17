@@ -5,7 +5,8 @@ import { GetAllHotels } from "../apiServices.tsx/HotelService";
 import { useLocation, useNavigate } from "react-router-dom";
 
 type Hotel = {
-  hotelID: number,
+  imageUrl: string | undefined;
+  hotelID: number;
   name: string;
   address: string;
   city: string;
@@ -67,16 +68,22 @@ function Hotels() {
 
   // Function to handle navigation to hotel detail page
   const handleSeeAvailability = (hotelId: number) => {
-    navigate(`/hotels/${hotelId}?city=${encodeURIComponent(searchParams.city)}&checkInDate=${searchParams.checkInDate}&checkOutDate=${searchParams.checkOutDate}&guest=${searchParams.guest}`);
+    navigate(
+      `/hotels/${hotelId}?city=${encodeURIComponent(
+        searchParams.city
+      )}&checkInDate=${searchParams.checkInDate}&checkOutDate=${
+        searchParams.checkOutDate
+      }&guest=${searchParams.guest}`
+    );
   };
 
   return (
     <div className="w-full">
-      <div className="border-b">
-      </div>
-      <div className="flex flex-col items-center -top-10">
+      <Nav />
+      <div className="border-b"></div>
+      <div className="flex flex-col items-center ">
         <SearchBar searchParams={searchParams} />
-        <div className="w-2/3 align-self-start px-5 pb-5">
+        <div className="w-2/3 align-self-start p-5">
           <a href="/Home">Home</a> {" > "}
           <a href="Hotels/Sweden">Country</a>
           {" > "}
@@ -134,11 +141,14 @@ function Hotels() {
               className="border rounded-xl w-1/3 px-5 py-3"
             />
             {hotels.map((hotel, i) => (
-              <div key={hotel.hotelID} className="flex gap-5 flex-wrap justify-end lg:justify-end border p-5 rounded-lg">
+              <div
+                key={hotel.hotelID}
+                className="flex gap-5 flex-wrap justify-end lg:justify-end border p-5 rounded-lg"
+              >
                 <div className="flex justify-between gap-10">
                   <div className="w-1/2 h-60">
                     <img
-                      src={image1}
+                      src={hotel.imageUrl}
                       alt="Hotel image"
                       className="w-full h-full object-cover rounded-lg"
                     />
@@ -163,7 +173,7 @@ function Hotels() {
                   </div>
                 </div>
                 <div className="flex place-self-end">
-                  <button 
+                  <button
                     className="bg-pink px-5 py-3 rounded-lg text-white"
                     onClick={() => handleSeeAvailability(hotel.hotelID)}
                   >
