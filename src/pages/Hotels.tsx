@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Nav from "../components/Nav";
+
 import SearchBar from "../components/SearchBar";
+import MapCard from "../components/MapCard";
 import { GetAllHotels } from "../apiServices.tsx/HotelService";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -65,7 +66,7 @@ function Hotels() {
     getHotels();
   }, [location.search]);
 
-  // Function to handle navigation to hotel detail page
+
   const handleSeeAvailability = (hotelId: number) => {
     navigate(`/hotels/${hotelId}?city=${encodeURIComponent(searchParams.city)}&checkInDate=${searchParams.checkInDate}&checkOutDate=${searchParams.checkOutDate}&guest=${searchParams.guest}`);
   };
@@ -83,14 +84,12 @@ function Hotels() {
           <a href="Hotels/Sweden/Stockholm">{searchParams.city}</a> {" > "}
           Search results
         </div>
+
         <div className="flex gap-5 justify-between w-2/3 px-5">
+
           <div className="hidden lg:flex flex-col">
             <div className="w-80 h-60">
-              <img
-                src={`${process.env.PUBLIC_URL}/assets/map.png`}
-                alt=""
-                className="w-full h-full object-cover"
-              />
+            <MapCard />
             </div>
             <div className="flex flex-col border py-3">
               <h2 className="border-b font-bold p-3">

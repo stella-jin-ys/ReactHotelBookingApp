@@ -1,16 +1,16 @@
 // components/ReviewItem.tsx
 import React from 'react';
 
-// Define an interface for the review object
-interface Review {
+// Define a type for the review object
+type Review = {
   text: string;
   avatar: React.ReactNode;
   author: string;
   country: string;
 }
 
-// Define props interface
-interface ReviewItemProps {
+// Define props type
+type ReviewItemProps = {
   review: Review;
 }
 

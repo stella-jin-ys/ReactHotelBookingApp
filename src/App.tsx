@@ -1,6 +1,6 @@
 import Home from "./pages/Home";
 import Hotels from "./pages/Hotels";
-import HotelPage from './pages/hotels/HotelPage2';
+import HotelPage from './pages/HotelPage';
 import Nav from './components/Nav';
 import BookingConfirmation from "./pages/BookingConfirmation";
 import {
@@ -23,8 +23,8 @@ return(
         <Route path="/Hotels" element={<Hotels />} />
         <Route path="/hotels/:hotelId" element={<HotelPage />} /> {/* Add this new route */}
         <Route path="/AdminDashboard" element={<AdminDashboard />} />
-        <Route path="/Payment" element={<Payment />} />
         <Route path="/booking-confirmation/:bookingId" element={<BookingConfirmation />} />
+        <Route path="/payment/:bookingId" element={<Payment />} />
       </Routes>
     </Router>
   );

@@ -1,19 +1,18 @@
 // pages/hotels/HotelPage2.tsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import HotelInfo from '../../components/HotelInfo';
-import NavigationTabs from '../../components/NavigationTabs';
-import ImageGallery from '../../components/ImageGallery';
-import AvailabilityComponent from '../../components/AvailabilityComponent';
-import PropertyHighlights from '../../components/PropertyHighlights';
-import ReviewScores from '../../components/ReviewScores';
-import ReserveCard from '../../components/ReserveCard';
-import MapCard from '../../components/MapCard';
-import { fetchHotel, fetchHotels } from '../../services/apiService';
-import Nav from '../../components/Nav';
+import HotelInfo from '../components/HotelInfo';
+import NavigationTabs from '../components/NavigationTabs';
+import ImageGallery from '../components/ImageGallery';
+import AvailabilityComponent from '../components/AvailabilityComponent';
+import PropertyHighlights from '../components/PropertyHighlights';
+import ReviewScores from '../components/ReviewScores';
+import ReserveCard from '../components/ReserveCard';
+import MapCard from '../components/MapCard';
+import { GetAllHotels, GetHotelById } from '../apiServices.tsx/HotelService';
 
-// Define the Hotel interface
-interface Hotel {
+// Define the Hotel type
+type Hotel = {
   hotelID?: number;
   name?: string;
   address?: string;
@@ -28,7 +27,7 @@ const HotelPage: React.FC = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
-  const [searchParams, setSearchParams] = useState({
+  const [searchParams] = useState({
     city: queryParams.get('city') || '',
     checkInDate: queryParams.get('checkInDate') || '',
     checkOutDate: queryParams.get('checkOutDate') || '',
@@ -50,12 +49,12 @@ const HotelPage: React.FC = () => {
         // If we have a specific hotelId, fetch just that hotel
         if (selectedHotelId) {
           try {
-            const hotel = await fetchHotel(selectedHotelId);
+            const hotel = await GetHotelById(selectedHotelId);
             setHotels([hotel]);
           } catch (err) {
             // If fetching specific hotel fails, fall back to fetching all hotels
             console.error("Failed to fetch specific hotel, falling back to all hotels:", err);
-            const hotelsData = await fetchHotels(
+            const hotelsData = await GetAllHotels(
               searchParams.city,
               searchParams.checkInDate,
               searchParams.checkOutDate,
@@ -65,7 +64,7 @@ const HotelPage: React.FC = () => {
           }
         } else {
           // If no specific hotelId, fetch all hotels with search parameters
-          const hotelsData = await fetchHotels(
+          const hotelsData = await GetAllHotels(
             searchParams.city,
             searchParams.checkInDate,
             searchParams.checkOutDate,
@@ -101,28 +100,28 @@ const HotelPage: React.FC = () => {
 
   return (
     <div>
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-         <div className="lg:col-span-2">
-          <NavigationTabs />
-          <HotelInfo hotelId={selectedHotelId} />
-          <ImageGallery />
-          <PropertyHighlights />
-          {/* Pass the search parameters to AvailabilityComponent */}
-          <AvailabilityComponent 
-            hotelId={selectedHotelId} 
-            initialCheckInDate={checkInDateObj}
-            initialCheckOutDate={checkOutDateObj}
-            initialGuests={searchParams.guest}
-          />
-        </div>
-        <div>
-          <ReserveCard />
-          <ReviewScores />
-          <MapCard />
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <NavigationTabs />
+            <HotelInfo hotelId={selectedHotelId} />
+            <ImageGallery />
+            <PropertyHighlights />
+            {/* Pass the search parameters to AvailabilityComponent */}
+            <AvailabilityComponent 
+              hotelId={selectedHotelId} 
+              initialCheckInDate={checkInDateObj}
+              initialCheckOutDate={checkOutDateObj}
+              initialGuests={searchParams.guest}
+            />
+          </div>
+          <div>
+            <ReserveCard />
+            <ReviewScores />
+            <MapCard />
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };

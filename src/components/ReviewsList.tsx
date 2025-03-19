@@ -2,8 +2,8 @@
 import React from 'react';
 import ReviewItem from './ReviewItem';
 
-// Define an interface for the review object
-interface Review {
+// Define a type for the review object
+type Review = {
   text: string;
   author: string;
   country: string;
@@ -14,7 +14,7 @@ const ReviewsList: React.FC = () => {
   // Sample reviews
   const reviews: Review[] = [
     {
-      text: "TThe culinary experience truly exceeded my expectations. Although the prices were a bit on the higher side, the quality and variety of dishes made every meal memorable.",
+      text: "The culinary experience truly exceeded my expectations. Although the prices were a bit on the higher side, the quality and variety of dishes made every meal memorable.",
       author: "Isabella",
       country: "Italy",
       avatar: "I"
