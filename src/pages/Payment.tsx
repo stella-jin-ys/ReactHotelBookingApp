@@ -24,10 +24,13 @@ export default function Payment() {
   const options = { fetchClientSecret };
 
   return (
-    <div className="pt-20">
-      <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
-        <EmbeddedCheckout />
-      </EmbeddedCheckoutProvider>
+    <div>
+      <Nav />
+      <div>
+        <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
+          <EmbeddedCheckout />
+        </EmbeddedCheckoutProvider>
+      </div>
     </div>
   );
 }

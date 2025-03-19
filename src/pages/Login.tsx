@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../apiServices.tsx/authServices";
+import axios from "axios";
 
 interface LoginFormData {
   email: string;
@@ -8,9 +10,10 @@ interface LoginFormData {
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<LoginFormData>({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
+  const [success, setSuccess] = useState<string | null>(null);
   const [errors, setErrors] = useState<Partial<LoginFormData>>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -26,7 +29,7 @@ const Login: React.FC = () => {
     if (errors[name as keyof LoginFormData]) {
       setErrors({
         ...errors,
-        [name]: '',
+        [name]: "",
       });
     }
   };
@@ -35,13 +38,13 @@ const Login: React.FC = () => {
     const newErrors: Partial<LoginFormData> = {};
 
     if (!formData.email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
+      newErrors.email = "Email is invalid";
     }
 
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = "Password is required";
     }
 
     setErrors(newErrors);
@@ -58,41 +61,52 @@ const Login: React.FC = () => {
     setIsLoading(true);
 
     try {
-      // Simulate API call with timeout
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // If login successful, redirect to homepage
-      navigate('/');
+      const user = await loginUser(formData.email, formData.password);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setSuccess("Log in successfully!");
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
     } catch (error) {
-      setErrors({
-        ...errors,
-        email: 'Invalid credentials',
-      });
+      if (axios.isAxiosError(error) && error.response) {
+        setErrors({
+          email: error.response.data.message || "Invalid credentials",
+        });
+      } else if (error instanceof Error) {
+        setErrors({ email: error.message });
+      } else {
+        setErrors({ email: "An unexpected error occurred" });
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div 
+    <div
       className="min-h-screen flex items-center justify-center bg-cover bg-center"
-      style={{ backgroundImage: `url(${process.env.PUBLIC_URL}/assets/cosmoledo.jpg)` }}
+      style={{
+        backgroundImage: `url(${process.env.PUBLIC_URL}/assets/cosmoledo.jpg)`,
+      }}
     >
       <div className="max-w-md w-full space-y-8 bg-white bg-opacity-80 p-8 rounded-lg shadow-lg">
         <div>
           <Link to="/">
-            <img 
-              className="mx-auto h-16 w-auto" 
-              src={`${process.env.PUBLIC_URL}/assets/logo.png`} 
-              alt="Hotel Booking Site Logo" 
+            <img
+              className="mx-auto h-16 w-auto"
+              src={`${process.env.PUBLIC_URL}/assets/logo.png`}
+              alt="Hotel Booking Site Logo"
             />
           </Link>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Sign in to your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
-            <Link to="/signup" className="font-medium text-pink-600 hover:text-pink-500">
+            Or{" "}
+            <Link
+              to="/signup"
+              className="font-medium text-pink border-b border-pink"
+            >
               create a new account
             </Link>
           </p>
@@ -110,7 +124,7 @@ const Login: React.FC = () => {
                 autoComplete="email"
                 required
                 className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${
-                  errors.email ? 'border-red-300' : 'border-gray-300'
+                  errors.email ? "border-red-300" : "border-gray-300"
                 } placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-pink-500 focus:border-pink-500 focus:z-10 sm:text-sm`}
                 placeholder="Email address"
                 value={formData.email}
@@ -131,7 +145,7 @@ const Login: React.FC = () => {
                 autoComplete="current-password"
                 required
                 className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${
-                  errors.password ? 'border-red-300' : 'border-gray-300'
+                  errors.password ? "border-red-300" : "border-gray-300"
                 } placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-pink-500 focus:border-pink-500 focus:z-10 sm:text-sm`}
                 placeholder="Password"
                 value={formData.password}
@@ -151,13 +165,19 @@ const Login: React.FC = () => {
                 type="checkbox"
                 className="h-4 w-4 text-pink-600 focus:ring-pink-500 border-gray-300 rounded"
               />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+              <label
+                htmlFor="remember-me"
+                className="ml-2 block text-sm text-gray-900"
+              >
                 Remember me
               </label>
             </div>
 
             <div className="text-sm">
-              <Link to="/forgot-password" className="font-medium text-pink-600 hover:text-pink-500">
+              <Link
+                to="/forgot-password"
+                className="font-medium text-pink-600 hover:text-pink-500"
+              >
                 Forgot your password?
               </Link>
             </div>
@@ -171,6 +191,11 @@ const Login: React.FC = () => {
               Log in
             </button>
           </div>
+          {success && (
+            <p className="text-green-600 text-xl text-center font-semibold">
+              {success}
+            </p>
+          )}
         </form>
       </div>
     </div>

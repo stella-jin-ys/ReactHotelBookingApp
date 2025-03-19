@@ -1,6 +1,6 @@
 import React from "react";
 
-const API_URL = "http://localhost:5247/api/customers";
+const API_URL = "http://localhost:5247/api/auth/register";
 
 async function Signup(userData: {
   firstName: string;

@@ -27,7 +27,7 @@ function SignUp() {
       if (response) {
         setSuccess("Account created successfully!");
         setTimeout(() => {
-          navigate("/");
+          navigate("/auth/login");
         }, 2000);
       }
     } catch (err) {
@@ -42,19 +42,28 @@ function SignUp() {
         backgroundImage: `url("https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")`,
       }}
     >
-      <Nav />
-      <div className=" flex items-center justify-center ">
+      <div className=" flex items-center justify-center mt-32 w-full">
         <form
           onSubmit={handleSubmit}
-          className="bg-slate-50 bg-opacity-80 p-20 rounded-lg flex flex-col gap-10"
+          className="bg-slate-50 bg-opacity-80 py-10 px-24 rounded-lg flex flex-col gap-5 "
         >
+          <Link to="/">
+            <img
+              className="mx-auto h-16 w-auto"
+              src={`${process.env.PUBLIC_URL}/assets/logo.png`}
+              alt="Hotel Booking Site Logo"
+            />
+          </Link>
           <div>
             <h1 className="text-3xl font-extrabold text-gray-900 ">
               Create an account
             </h1>
             <p className="text-gray-700">
               Already have an account? Go to
-              <Link to="/login" className="border-b border-slate-700 p-1">
+              <Link
+                to="/login"
+                className="border-b border-pink p-1 text-pink font-extrabold"
+              >
                 Log in
               </Link>
             </p>

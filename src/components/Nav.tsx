@@ -34,7 +34,7 @@ function Nav() {
             Log in
           </button>
         )}
-        {location.pathname !== "/login" && (
+        {location.pathname !== "/signUp" && (
           <button
             className="bg-pink px-10 rounded-lg text-white py-3"
             onClick={handleSignupClick}

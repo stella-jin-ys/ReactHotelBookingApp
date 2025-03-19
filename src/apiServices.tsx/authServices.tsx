@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = process.env.REACT_APP_API_URL || "https://localhost:7001/api";
+const API_URL = process.env.REACT_APP_API_URL || "https://localhost:5247/api";
 
 export interface User {
   id: number;
@@ -11,21 +11,24 @@ export interface User {
 }
 
 // Function to login user
-export const loginUser = async (username: string, password: string): Promise<User> => {
+export const loginUser = async (
+  username: string,
+  password: string
+): Promise<User> => {
   try {
     const response = await axios.post(`${API_URL}/auth/login`, {
       username,
-      password
+      password,
     });
-    
+
     const { token, user } = response.data;
-    
+
     // Store the token in localStorage
     localStorage.setItem("token", token);
-    
+
     // Set the token for all future requests
     setAuthHeader(token);
-    
+
     return user;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -48,11 +51,11 @@ export const logoutUser = (): void => {
 // Function to get current user from token
 export const getCurrentUser = async (): Promise<User | null> => {
   const token = localStorage.getItem("token");
-  
+
   if (!token) {
     return null;
   }
-  
+
   try {
     setAuthHeader(token);
     const response = await axios.get(`${API_URL}/auth/me`);

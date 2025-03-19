@@ -13,19 +13,20 @@ import AdminDashboard from "./pages/AdminDashboard";
 import Payment from "./pages/Payment";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/SignUp" element={<SignUp />} />
-        <Route path="/Hotels" element={<Hotels />} />
-        <Route path="/hotels/:hotelId" element={<HotelPage />} />{" "}
-        {/* Add this new route */}
-        <Route path="/AdminDashboard" element={<AdminDashboard />} />
-        <Route path="/Payment" element={<Payment />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signUp" element={<SignUp />} />
+        <Route path="/hotels" element={<Hotels />} />
+        <Route path="/hotels/:hotelId" element={<HotelPage />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/adminDashboard" element={<AdminDashboard />} />
+        <Route path="/payment/:id" element={<Payment />} />
         <Route
           path="/booking-confirmation/:bookingId"
           element={<BookingConfirmation />}
