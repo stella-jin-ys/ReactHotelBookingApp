@@ -1,11 +1,15 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function Nav() {
   const navigate = useNavigate();
-  
+  const location = useLocation();
+
   const handleLoginClick = () => {
-    navigate('/login');
+    navigate("/login");
+  };
+  const handleSignupClick = () => {
+    navigate("/signUp");
   };
 
   return (
@@ -22,19 +26,24 @@ function Nav() {
       </Link>
 
       <div className="flex flex-wrap gap-5">
-        <button 
-          onClick={handleLoginClick}
-          className="border border-pink px-10 rounded-lg text-pink py-3"
-        >
-          Log in
-        </button>
-        <button className="bg-pink px-10 rounded-lg text-white py-3">
-          Sign up
-        </button>
+        {location.pathname !== "/login" && (
+          <button
+            onClick={handleLoginClick}
+            className="border border-pink px-10 rounded-lg text-pink py-3"
+          >
+            Log in
+          </button>
+        )}
+        {location.pathname !== "/login" && (
+          <button
+            className="bg-pink px-10 rounded-lg text-white py-3"
+            onClick={handleSignupClick}
+          >
+            Sign up
+          </button>
+        )}
       </div>
     </div>
-
-    
   );
 }
 

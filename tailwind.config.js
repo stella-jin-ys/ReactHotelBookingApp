@@ -6,6 +6,12 @@ module.exports = {
       colors: {
         pink: "#ef476f",
       },
+      fontFamily: {
+        mogra: ['"Mogra"', "system-ui"],
+        delius: ['"Delius Unicase"', "cursive"],
+        funnel: ['"Funnel Display"', "sans-serif"],
+        league: ['"League Spartan"', "sans-serif"],
+      },
     },
   },
   plugins: [],

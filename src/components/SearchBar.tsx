@@ -45,9 +45,9 @@ function SearchBar({ searchParams }: SearchProps) {
   };
 
   return (
-    <div className="bg-white w-3/4 rounded-lg">
-      <div className="flex flex-wrap justify-between items-end p-5 gap-2 w-full">
-        <div className="flex flex-col gap-2 flex-1 min-w-[150px] ">
+    <div className="bg-white w-3/4 rounded-lg sm:py-10 px-2 shadow-lg">
+      <div className="flex flex-wrap justify-between items-end p-5 gap-5 w-full text-xl ">
+        <div className="flex flex-col gap-5 flex-1 min-w-[150px]  ">
           <h2>Location</h2>
           <input
             type="text"
@@ -57,7 +57,7 @@ function SearchBar({ searchParams }: SearchProps) {
             onChange={(e) => setCity(e.target.value)}
           />
         </div>
-        <div className="flex flex-col gap-2 flex-1 min-w-[150px]">
+        <div className="flex flex-col gap-5 flex-1 min-w-[150px]">
           <h2>Check-in Date</h2>
           <input
             type="date"
@@ -73,7 +73,7 @@ function SearchBar({ searchParams }: SearchProps) {
             }}
           />
         </div>
-        <div className="flex flex-col gap-2 flex-1 min-w-[150px]">
+        <div className="flex flex-col gap-5 flex-1 min-w-[150px]">
           <h2>Check-out Date</h2>
           <input
             type="date"
@@ -82,7 +82,7 @@ function SearchBar({ searchParams }: SearchProps) {
             value={checkOutDate}
             min={
               checkInDate
-                ? new Date(new Date(checkInDate).getTime() + +86400000)
+                ? new Date(new Date(checkInDate).getTime() + 86400000)
                     .toISOString()
                     .split("T")[0]
                 : today
@@ -90,7 +90,7 @@ function SearchBar({ searchParams }: SearchProps) {
             onChange={(e) => setCheckOutDate(e.target.value)}
           />
         </div>
-        <div className="flex flex-col gap-2 flex-1 min-w-[150px]">
+        <div className="flex flex-col gap-5 flex-1 min-w-[150px]">
           <h2>Guests</h2>
           <input
             type="number"
