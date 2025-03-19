@@ -12,7 +12,7 @@ export default function Payment() {
   const fetchClientSecret = useCallback(() => {
     // Create a Checkout Session
     return fetch(
-      "http://localhost:5247/api/payment/create-checkout-session/2",
+      "http://localhost:5247/api/payment/2",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

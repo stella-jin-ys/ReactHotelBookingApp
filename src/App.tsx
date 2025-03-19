@@ -1,7 +1,7 @@
 import Home from "./pages/Home";
 import Hotels from "./pages/Hotels";
-import HotelPage from "./pages/HotelDetails";
-import Nav from "./components/Nav";
+import HotelPage from './pages/HotelPage';
+import Nav from './components/Nav';
 import BookingConfirmation from "./pages/BookingConfirmation";
 import {
   BrowserRouter as Router,
@@ -26,10 +26,7 @@ function App() {
         {/* Add this new route */}
         <Route path="/AdminDashboard" element={<AdminDashboard />} />
         <Route path="/Payment" element={<Payment />} />
-        <Route
-          path="/booking-confirmation/:bookingId"
-          element={<BookingConfirmation />}
-        />
+        <Route path="/booking-confirmation/:bookingId" element={<BookingConfirmation />} />
       </Routes>
     </Router>
   );

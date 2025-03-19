@@ -1,8 +1,8 @@
 // components/RoomDetailModal.tsx
 import React, { useState, useEffect } from 'react';
 
-// Define interfaces
-interface Room {
+// Define types
+type Room = {
   id: number;
   name: string;
   roomNumber: string | number;
@@ -15,7 +15,7 @@ interface Room {
   roomType: string;
 }
 
-interface RoomDetailModalProps {
+type RoomDetailModalProps = {
   room: Room | null;
   isOpen: boolean;
   onClose: () => void;

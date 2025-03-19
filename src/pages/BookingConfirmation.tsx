@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { fetchBooking, fetchRoom, fetchHotel } from '../services/apiService';
-import { BookingDto, RoomDto, HotelDto } from '../services/apiService';
+import { GetBookingById } from '../apiServices.tsx/BookingService';
+import { GetRoomById } from '../apiServices.tsx/RoomService';
+import { GetHotelById } from '../apiServices.tsx/HotelService';
 
 const BookingConfirmation: React.FC = () => {
   const { bookingId } = useParams<{ bookingId: string }>();
-  const [booking, setBooking] = useState<BookingDto | null>(null);
-  const [room, setRoom] = useState<RoomDto | null>(null);
-  const [hotel, setHotel] = useState<HotelDto | null>(null);
+  const [booking, setBooking] = useState<any>(null);
+  const [room, setRoom] = useState<any>(null);
+  const [hotel, setHotel] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   
@@ -21,15 +22,15 @@ const BookingConfirmation: React.FC = () => {
       
       try {
         // Fetch booking information
-        const bookingData = await fetchBooking(parseInt(bookingId, 10));
+        const bookingData = await GetBookingById(parseInt(bookingId, 10));
         setBooking(bookingData);
         
         // Fetch room information
-        const roomData = await fetchRoom(bookingData.roomID);
+        const roomData = await GetRoomById(bookingData.roomID);
         setRoom(roomData);
         
         // Fetch hotel information
-        const hotelData = await fetchHotel(roomData.hotelID);
+        const hotelData = await GetHotelById(roomData.hotelID);
         setHotel(hotelData);
         
         setLoading(false);
@@ -62,6 +63,22 @@ const BookingConfirmation: React.FC = () => {
     const checkIn = new Date(booking.checkInDate);
     const checkOut = new Date(booking.checkOutDate);
     return Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24));
+  };
+  
+  // Convert booking status number to string
+  const getStatusText = (status: number) => {
+    switch (status) {
+      case 0:
+        return 'Pending';
+      case 1:
+        return 'Confirmed';
+      case 2:
+        return 'Cancelled';
+      case 3:
+        return 'Completed';
+      default:
+        return 'Unknown';
+    }
   };
   
   if (loading) {
@@ -119,7 +136,7 @@ const BookingConfirmation: React.FC = () => {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Status:</span>
-                  <span className="font-medium text-green-600">{booking.status}</span>
+                  <span className="font-medium text-green-600">{getStatusText(booking.status)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Check-in:</span>

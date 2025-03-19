@@ -1,13 +1,13 @@
 // components/HotelInfo.tsx
 import React, { useState, useEffect } from 'react';
-import { fetchHotel, HotelDto } from '../services/apiService';
+import { GetHotelById } from '../apiServices.tsx/HotelService';
 
-interface HotelInfoProps {
+type HotelInfoProps = {
   hotelId: number | null;
 }
 
 const HotelInfo: React.FC<HotelInfoProps> = ({ hotelId }) => {
-  const [hotel, setHotel] = useState<HotelDto | null>(null);
+  const [hotel, setHotel] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -23,7 +23,7 @@ const HotelInfo: React.FC<HotelInfoProps> = ({ hotelId }) => {
       }
       
       try {
-        const hotelData = await fetchHotel(hotelId);
+        const hotelData = await GetHotelById(hotelId);
         setHotel(hotelData);
         setError(null);
       } catch (err: unknown) {

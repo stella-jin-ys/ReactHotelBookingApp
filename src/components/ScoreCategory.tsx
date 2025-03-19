@@ -1,8 +1,8 @@
 // components/ScoreCategory.tsx
 import React from 'react';
 
-// Define interface for component props
-interface ScoreCategoryProps {
+// Define type for component props
+type ScoreCategoryProps = {
   name: string;
   score: number;
   percentage: number;
