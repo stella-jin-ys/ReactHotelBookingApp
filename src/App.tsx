@@ -1,7 +1,6 @@
 import Home from "./pages/Home";
 import Hotels from "./pages/Hotels";
-import HotelPage from "./pages/HotelDetails";
-import Nav from "./components/Nav";
+import HotelPage from "./pages/HotelPage";
 import BookingConfirmation from "./pages/BookingConfirmation";
 import {
   BrowserRouter as Router,

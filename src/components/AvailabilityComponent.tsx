@@ -1,24 +1,25 @@
 // components/AvailabilityComponent.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import RoomCard from './RoomCard';
-import { fetchRoomsByHotel, fetchBookings, BookingDto, BookingStatus } from '../services/apiService';
+import { GetRoomsByHotelId } from '../apiServices.tsx/RoomService';
+import { GetAllBookings } from '../apiServices.tsx/BookingService';
 
-// Define interfaces
-interface AvailabilityComponentProps {
+// Define types
+type AvailabilityComponentProps = {
   hotelId: string | number | null;
   initialCheckInDate?: Date;
   initialCheckOutDate?: Date;
   initialGuests?: number;
 }
 
-interface Booking {
+type Booking = {
   roomID: number;
   checkInDate: string;
   checkOutDate: string;
-  status?: string;
+  status?: number;
 }
 
-interface RoomResponse {
+type RoomResponse = {
   roomID: number;
   roomType?: string;
   description?: string;
@@ -27,7 +28,7 @@ interface RoomResponse {
   roomNumber: string | number;
 }
 
-interface RoomDisplayData {
+type RoomDisplayData = {
   id: number;
   name: string;
   description: string;
@@ -57,7 +58,7 @@ const AvailabilityComponent: React.FC<AvailabilityComponentProps> = ({
   const [guests, setGuests] = useState<number>(
     initialGuests || 2
   );
-  const [bookings, setBookings] = useState<BookingDto[]>([]);
+  const [bookings, setBookings] = useState<Booking[]>([]);
   const [rooms, setRooms] = useState<RoomDisplayData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -100,7 +101,7 @@ const AvailabilityComponent: React.FC<AvailabilityComponentProps> = ({
   useEffect(() => {
     const loadBookings = async (): Promise<void> => {
       try {
-        const bookingData = await fetchBookings();
+        const bookingData = await GetAllBookings();
         setBookings(bookingData);
       } catch (err) {
         console.error('Error loading bookings:', err);
@@ -111,7 +112,7 @@ const AvailabilityComponent: React.FC<AvailabilityComponentProps> = ({
   }, []);
 
   // Check if a room is available for the selected date range
-  const isRoomAvailable = (roomId: number, checkIn: Date, checkOut: Date): boolean => {
+  const isRoomAvailable = useCallback((roomId: number, checkIn: Date, checkOut: Date): boolean => {
     // Convert dates to comparable format
     const checkInTime = new Date(checkIn).getTime();
     const checkOutTime = new Date(checkOut).getTime();
@@ -121,8 +122,8 @@ const AvailabilityComponent: React.FC<AvailabilityComponentProps> = ({
       // Skip if it's not for this room
       if (booking.roomID !== roomId) return false;
       
-      // Skip if booking is cancelled
-      if (booking.status === BookingStatus.Cancelled) return false;
+      // Skip if booking is cancelled (status 2)
+      if (booking.status === 2) return false;
       
       // Convert booking dates to comparable format
       const bookingCheckIn = new Date(booking.checkInDate).getTime();
@@ -138,7 +139,7 @@ const AvailabilityComponent: React.FC<AvailabilityComponentProps> = ({
     
     // Room is available if there are no overlapping bookings
     return overlappingBookings.length === 0;
-  };
+  }, [bookings]);
 
   // Fetch rooms when hotel or dates change
   useEffect(() => {
@@ -149,8 +150,11 @@ const AvailabilityComponent: React.FC<AvailabilityComponentProps> = ({
       setError(null);
       
       try {
-        const hotelRooms: RoomResponse[] = await fetchRoomsByHotel(
-          typeof hotelId === 'string' ? parseInt(hotelId) : hotelId as number
+        const hotelRooms: RoomResponse[] = await GetRoomsByHotelId(
+          typeof hotelId === 'string' ? parseInt(hotelId) : hotelId as number,
+          checkInDate.toISOString(),
+          checkOutDate.toISOString(),
+          guests
         );
         
         if (hotelRooms.length === 0) {
@@ -189,7 +193,7 @@ const AvailabilityComponent: React.FC<AvailabilityComponentProps> = ({
     };
     
     loadRooms();
-  }, [hotelId, checkInDate, checkOutDate, bookings]);
+  }, [hotelId, checkInDate, checkOutDate, bookings, guests, isRoomAvailable]);
 
   // Format date for display
   const formatDate = (date: Date): string => {

@@ -5,14 +5,17 @@ import {
   EmbeddedCheckoutProvider,
   EmbeddedCheckout,
 } from "@stripe/react-stripe-js";
+import { useParams } from "react-router-dom";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY!);
 
 export default function Payment() {
+  const { id } = useParams();
+  console.log(id);
   const fetchClientSecret = useCallback(() => {
     // Create a Checkout Session
     return fetch(
-      "http://localhost:5247/api/payment/create-checkout-session/2",
+      `http://localhost:5247/api/payment/create-checkout-session/${id}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

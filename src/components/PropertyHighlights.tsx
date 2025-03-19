@@ -1,8 +1,8 @@
 // components/PropertyHighlights.tsx
 import React from 'react';
 
-// Define interface for amenity items
-interface Amenity {
+// Define type for amenity items
+type Amenity = {
   icon: string;
   text: string;
 }

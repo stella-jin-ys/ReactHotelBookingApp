@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import BookingForm from './BookingForm';
 
-interface Room {
+type Room = {
   id: number;
   name: string;
   roomType: string;
@@ -9,7 +9,7 @@ interface Room {
   capacity: number;
 }
 
-interface BookingModalProps {
+type BookingModalProps = {
   isOpen: boolean;
   onClose: () => void;
   room: Room;

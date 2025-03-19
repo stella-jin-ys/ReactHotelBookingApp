@@ -3,8 +3,8 @@ import React from 'react';
 import ReviewsList from './ReviewsList';
 import ScoreCategory from './ScoreCategory';
 
-// Define an interface for category
-interface Category {
+// Define a type for category
+type Category = {
   name: string;
   score: number;
 }
