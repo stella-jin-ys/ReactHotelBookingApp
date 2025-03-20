@@ -37,12 +37,12 @@ function SignUp() {
 
   return (
     <div
-      className="h-screen overflow-hidden bg-center bg-cover"
+      className="h-screen  bg-center bg-cover"
       style={{
-        backgroundImage: `url("https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")`,
+        backgroundImage: `url("https://images.pexels.com/photos/2096983/pexels-photo-2096983.jpeg")`,
       }}
     >
-      <div className=" flex items-center justify-center mt-32 w-full">
+      <div className="pt-32 flex items-center justify-center  w-full">
         <form
           onSubmit={handleSubmit}
           className="bg-slate-50 bg-opacity-80 py-10 px-24 rounded-lg flex flex-col gap-5 "
